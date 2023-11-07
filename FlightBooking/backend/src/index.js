@@ -1,7 +1,8 @@
 const express = require('express');
-
+const { ServerConfig,LoggerConfig:logger } = require('./config/index');
 const app = express();
 
-app.listen(8500,()=>{
-    console.log('server is running fine on port 8500')
+app.listen(ServerConfig.PORT,()=>{
+    logger.log('info',`server is runnign fine on port ${ServerConfig.PORT}`)
+
 })
