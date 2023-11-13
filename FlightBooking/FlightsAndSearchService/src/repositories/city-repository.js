@@ -1,9 +1,9 @@
-const {CRUDRepository} = require('./index')
-const { City } = require("../models/index");
+const CRUDRepository = require('./crud-repository')
+const { City } = require('../models/index');
 
 class CityRepository extends CRUDRepository {
     constructor() {
-        super(City)
+        super(City);
     }
-    
 }
+module.exports = CityRepository;

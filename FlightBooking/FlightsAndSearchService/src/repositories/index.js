@@ -1,3 +1,3 @@
 module.exports = {
-    CRUDRepository: require('./crud-repository')
+    CityRepository: require('./city-repository')
 }
