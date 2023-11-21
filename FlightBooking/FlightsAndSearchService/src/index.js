@@ -2,7 +2,7 @@ const express = require('express');
 
 const appRoutes = require('./routes/index')
 
-const {City,Airport} = require('./models/index')
+const {City,Airplane} = require('./models/index')
 const { ServerConfig,LoggerConfig:logger } = require('./config/index');
 
 
@@ -13,8 +13,9 @@ app.use('/api',appRoutes)
 
 app.listen(ServerConfig.PORT,async()=>{
     logger.log('info',`server is runnign fine on port ${ServerConfig.PORT}`)
-    const airports = await Airport.findAll({
-        attributes:['name']
-    });
-    console.log(airports);
+    // await Airplane.create({
+    //     id:'efvfereg',
+    //     modelNumber:"fvefbebeb",
+    //     capacity:300
+    // })
 })

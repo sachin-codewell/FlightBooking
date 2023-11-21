@@ -7,7 +7,6 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING,
-        unique:true
       },
       modelNumber: {
         type: Sequelize.STRING,

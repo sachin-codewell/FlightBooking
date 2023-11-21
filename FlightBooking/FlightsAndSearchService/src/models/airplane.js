@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type:DataTypes.STRING,
       allowNull:false,
-      unique:true
+      primaryKey:true
     },
     modelNumber: {
       type:DataTypes.STRING,
