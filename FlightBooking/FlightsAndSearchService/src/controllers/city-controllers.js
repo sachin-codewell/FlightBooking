@@ -1,10 +1,10 @@
-const { cityService } = require('../services/index')
+const { CityService } = require('../services/index')
 const logger = require("../config/logger-config");
 
 
 async function createCity(req,res){
     try {
-        const city = await cityService.createCity(req.body);
+        const city = await CityService.createCity(req.body);
         console.log(city);
         return res.status(201).send({
             success:true,
@@ -28,7 +28,7 @@ async function createCity(req,res){
 async function getCity(req,res){
     try {
         console.log(req.params);
-        const deleted = await cityService.getCity(req.params.id);
+        const city = await CityService.getCity(req.params.id);
         return res.status(201).send({
             success:true,
             message:"City fetched successfully",
@@ -50,7 +50,7 @@ async function getCity(req,res){
 
 async function getAllCity(req,res){
     try {
-        const cities = await cityService.getAllCity(req.query);
+        const cities = await CityService.getAllCity(req.query);
         return res.status(201).send({
             success:true,
             message:'All City data fetched successfully',
@@ -72,7 +72,10 @@ async function getAllCity(req,res){
 
 async function updateCity(req,res){
     try {
-        const updated = await cityService.updateCity(req.body);
+        const updatedData = {
+            name:req.body.name
+        }
+        const updated = await CityService.updateCity(req.body.id,updatedData);
         return res.status(201).send({
             success:updated==1?true:false,
             message:updated==1?'City Updated successfully':'City with recievd id does not exist',
@@ -95,7 +98,7 @@ async function updateCity(req,res){
 async function deleteCity(req,res){
     try {
         console.log(req.params);
-        const deleted = await cityService.deleteCity(req.params.id);
+        const deleted = await CityService.deleteCity(req.params.id);
         return res.status(201).send({
             success:deleted==1?true:false,
             message:deleted==1?"City deleted successfully":"City with given id does not exist",

@@ -18,11 +18,7 @@ class CRUDRepository {
   
   async get(id) {
     try {
-      const fetcheddata = this.model.findAll({
-        where: {
-          id: id,
-        },
-      });
+      const fetcheddata = this.model.findByPk(id);
       return fetcheddata;
     } catch (error) {
       logger.log("error", "Something went wrong in crud-repo: get");
@@ -30,11 +26,21 @@ class CRUDRepository {
     }
   }
 
-  async update(data) {
+  async getAll(filter) {
     try {
-      let id = data.id;
-      delete data.id;
-      const updated = await this.model.update({...data},{
+      const data = this.model.findAll({
+        where:filter
+      })
+      return data;
+    } catch (error) {
+      logger.log("error", "Something went wrong in crud-repo: getAll");
+      throw { error };
+    }
+  }
+
+  async update(id,updatedData) {
+    try {
+      const updated = await this.model.update({...updatedData},{
         where: {
           id: id,
         },

@@ -1,8 +1,17 @@
 const { CityRepository } = require('../repositories/index')
 const logger = require("../config/logger-config");
+const { Op } = require('sequelize');
 
 
 const cityRepository = new CityRepository();
+
+function createFilter(data) {
+    let filter = {};
+    if(data.name){
+        Object.assign(filter,{name:{[Op.startsWith]: data.name}})
+    }
+    return filter;
+}
 
 async function createCity(newCityData){
     try {
@@ -26,9 +35,10 @@ async function getCity(cityId){
 
 }
 
-async function getAllCity(filter){
+async function getAllCity(data){
     try {
-        const cities = await cityRepository.getAllCity({name:filter.name});
+        let filter = createFilter(data);
+        const cities = await cityRepository.getAll(filter);
         return cities;    
     } catch(error) {
         logger.log('error','Something went wrong in city-service: getAllCity');  
@@ -37,9 +47,9 @@ async function getAllCity(filter){
 
 }
 
-async function updateCity(data){
+async function updateCity(id,updatedData){
     try {
-        const updated = await cityRepository.update(data);
+        const updated = await cityRepository.update(id,updatedData);
         return updated;    
     } catch(error) {
         logger.log('error','Something went wrong in city-service: updateCity');  
