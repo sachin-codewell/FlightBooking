@@ -43,7 +43,29 @@ async function getFlight(req,res){
     }
 }
 
+async function getAllFlight(req,res){
+    try {
+        const flights = await FlightService.getAllFlights(req.body);
+        return res.status(201).send({
+            success: true,
+            message: "All fights fetched successfully",
+            data: flights,
+            error: {}
+        })
+        
+    } catch(error) {
+        logger.log('error','Something went wrong in flight-controller: getAllFlight');  
+        return res.status(504).send({
+            success: false,
+            message: "Error occured while fetching All flight detail",
+            data: {},
+            error: error
+        })
+    }
+}
+
 module.exports = {
     createFlight,
-    getFlight
+    getFlight,
+    getAllFlight
 }

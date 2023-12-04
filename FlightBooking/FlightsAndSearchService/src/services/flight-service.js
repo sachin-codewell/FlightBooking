@@ -15,8 +15,23 @@ function createFilter(data){
     if(data.arrivalAirportId){
         filter.arrivalAirportId = data.arrivalAirportId
     }
-    let priceFilter = []
-
+    let priceFilter = [];
+    if(data.minPrice){
+        priceFilter.push(data.minPrice);
+    }
+    if(data.maxPrice){
+        priceFilter.push(data.maxPrice);
+    }
+    if(data.maxPrice&&data.minPrice){
+        Object.assign(filter,{price:{ [Op.between]: priceFilter }});
+    }
+    if(data.maxPrice){
+        Object.assign(filter,{price:{ [Op.lte]: priceFilter[0] }});
+    }
+    if(data.minPrice){
+        Object.assign(filter,{price:{ [Op.gte]: priceFilter[0] }});
+    }
+    return filter
 }
 
 async function createFlight(flightData) {
@@ -39,17 +54,25 @@ async function getFlight(flightId) {
         return flight;
     } catch (error) {
         logger.log('error','Something went wrong in flight-service: getFlight');  
-        throw {error};
-        
+        throw {error};  
     }
 
 }
 
 async function getAllFlights(data) {
-    const filter = createFilter(data);
+   try {
+       const filter = createFilter(data);
+       const flights = await flightRepository.getAll(filter);
+       return flights
+   } catch (error) {
+       logger.log('error','Something went wrong in flight-service: getFlight');  
+       throw {error};
+   }
+
 }
 
 module.exports = {
     createFlight,
-    getFlight
+    getFlight,
+    getAllFlights
 }
