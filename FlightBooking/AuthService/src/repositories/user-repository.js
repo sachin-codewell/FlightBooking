@@ -1,0 +1,7 @@
+
+class Userrepository {
+    
+    async create(){
+
+    }
+}
