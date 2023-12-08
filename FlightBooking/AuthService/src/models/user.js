@@ -4,6 +4,8 @@ const {
   Model
 } = require('sequelize');
 
+const {ServerConfig} = require('../config/index')
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -19,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type:DataTypes.STRING,
       allowNull: false,
-      unique:true
+      primaryKey: true
     },
     firstName: {
       type:DataTypes.STRING,
@@ -27,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     lastName: {
       type:DataTypes.STRING,
-      allowNull: flase
+      allowNull: false
     },
     email: {
       type:DataTypes.STRING,
@@ -42,11 +44,12 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+  User.beforeCreate((user) => {
+    const hashedPassword = bcrypt.hashSync(user.password, ServerConfig.SALT);
+    user.password = hashedPassword;
+  });
   return User;
 };
 
-User.beforeCreate((user) => {
-  const hashedPassword = bcrypt.hashSync(user.password, salt);
-  user.password = hashedPassword;
-});
+
 
