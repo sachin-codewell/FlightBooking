@@ -1,29 +1,30 @@
-const {UserService} = require('../services/index');
+const { UserService } = require('../services/index');
+const HTTPCode = require('../helper/error-codes')
 
 const userService = new UserService();
 
 async function registerUser(req,res) {
     try {
-        const user = userService.registerUser({
+        const response = await userService.registerUser({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password
         })
-        return res.status(201).json({
+        return res.status(HTTPCode.CREATED).json({
             success:true,
             message: 'User Register Successfully',
             error: {},
-            data: user,
+            data: response,
 
         })
     } catch (error) {
         console.log('Something went wrong in user-controller: register');
-        return res.status(201).json({
-            success:true,
+        return res.status(HTTPCode.INTERNAL_SERVER_ERROR).json({
+            success:false,
             message: 'User Not Register',
             error: error,
-            data: user,
+            data: {},
 
         })
     }

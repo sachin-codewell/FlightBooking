@@ -1,5 +1,6 @@
-const {User} = require('../models/index')
-class Userrepository {
+const { User } = require('../models/index')
+
+class UserRepository {
     
     async create(data){
         try {
@@ -11,6 +12,7 @@ class Userrepository {
         }
 
     }
+
 }
 
-module.exports = Userrepository;
+module.exports = UserRepository;

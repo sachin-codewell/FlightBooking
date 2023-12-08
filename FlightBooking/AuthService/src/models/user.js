@@ -34,20 +34,23 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type:DataTypes.STRING,
       allowNull :false,
-      unique:true
+      unique:true,
+      validate: {isEmail: true} 
     },
     password: {
       type:DataTypes.STRING,
-      allowNull :false
+      allowNull :false,
+      validate: {min:6}
     },
   }, {
     sequelize,
     modelName: 'User',
   });
   User.beforeCreate((user) => {
-    const hashedPassword = bcrypt.hashSync(user.password, ServerConfig.SALT);
-    user.password = hashedPassword;
-  });
+      const hashedPassword = bcrypt.hashSync(user.password, ServerConfig.SALT);
+      user.password = hashedPassword;
+  })
+
   return User;
 };
 

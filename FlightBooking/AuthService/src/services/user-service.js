@@ -1,5 +1,6 @@
 const { v4:uuidv4} = require('uuid');
-const {UserRepository} = require('../repositories/index');
+const { UserRepository } = require('../repositories/index');
+
 class UserService {
     constructor(){
         this.userRepository = new UserRepository()
@@ -7,10 +8,10 @@ class UserService {
 
     async registerUser(data){
         try {
-            const user = await this.userRepository.create({id:uuidv4(),...data});
+            const user = await this.userRepository.create({id:uuidv4(), ...data});
             return user;
         } catch (error) {
-            console.log('Something went wrong in user-repo: register');
+            console.log('Something went wrong in user-service: registerUser');
             throw error;   
         }
 
