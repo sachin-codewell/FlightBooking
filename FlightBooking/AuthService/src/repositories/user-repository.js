@@ -19,8 +19,7 @@ class UserRepository {
     async getById(id) {
         try {
             const data = await User.findByPk(id);
-            return data;
-            
+            return data;    
         } catch (error) {
             console.log('Something went wrong in user-repo: getById');
             throw error;

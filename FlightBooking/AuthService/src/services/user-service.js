@@ -40,6 +40,20 @@ class UserService {
 
     }
 
+    async isAuthenticated(token) {
+        try {
+            const data = this.verifyToken(token);
+            const response = await this.userRepository.getById(data.id);
+            if(!response){
+                throw {error: "this token does not belongs to any user"}
+            }
+            return response.id;
+        } catch (error) {
+            console.log('Something went wrong in user-service: isAuthenticated');
+            throw error;
+        }
+    }
+
     comparePassword(plainPassword,hashPassword) {
         try {
             return bcrypt.compareSync(plainPassword,hashPassword); 

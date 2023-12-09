@@ -55,7 +55,31 @@ async function login(req,res) {
     }
 }
 
+async function isAuthenticated(req,res) {
+    try {
+        const token = req.headers['access-token'];
+        const response = await userService.isAuthenticated(token)
+        return res.status(HTTPCode.ACCEPTED).json({
+            success:true,
+            message: 'User is authentucated',
+            error: {},
+            data: response,
+
+        })
+    } catch (error) {
+        console.log('Something went wrong in user-controller: isAuthenticated');
+        return res.status(HTTPCode.INTERNAL_SERVER_ERROR).json({
+            success:false,
+            message: 'User is not authenticated',
+            error: error,
+            data: {},
+
+        })
+    }
+}
+
 module.exports = {
     registerUser,
-    login
+    login,
+    isAuthenticated
 }
