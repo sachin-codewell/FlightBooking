@@ -49,8 +49,7 @@ module.exports = (sequelize, DataTypes) => {
   User.beforeCreate((user) => {
       const hashedPassword = bcrypt.hashSync(user.password, ServerConfig.SALT);
       user.password = hashedPassword;
-  })
-
+  });
   return User;
 };
 
